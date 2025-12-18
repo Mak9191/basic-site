@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD - School White-Label Management App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header .version {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Section Card */
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-right: 20px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Problem Statement */
+        .problem-icon { background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .problem-box {
+            padding: 25px;
+            border-radius: 15px;
+            background: #f8f9fa;
+        }
+
+        .problem-box h4 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .problem-box.solution h4 {
+            color: #27ae60;
+        }
+
+        .problem-box ul {
+            list-style: none;
+        }
+
+        .problem-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .problem-box li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .problem-box.solution li::before {
+            content: "✓";
+            color: #27ae60;
+        }
+
+        /* Objective */
+        .objective-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+        .objective-main {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .objective-main p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .success-criteria {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .criteria-item {
+            text-align: center;
+            padding: 25px 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .criteria-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .criteria-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .criteria-item p {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Roles */
+        .roles-icon { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .role-card {
+            border: 2px solid #eee;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .role-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .role-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .role-header .emoji {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .role-header h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .role-header small {
+            display: block;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-top: 3px;
+        }
+
+        .role-super { background: linear-gradient(135deg, #2c3e50, #3498db); }
+        .role-admin { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .role-teacher { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .role-parent { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .role-student { background: linear-gradient(135deg, #f39c12, #e67e22); }
+
+        .role-actions {
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .role-actions h5 {
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .action-tag {
+            display: inline-block;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            margin: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .action-tag:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .role-card.full-width {
+            grid-column: span 2;
+        }
+
+        /* Features */
+        .features-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            background: white;
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-card .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .feature-card h4 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: #777;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .f-auth { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .f-admin { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .f-attendance { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .f-homework { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .f-notice { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .f-timetable { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .f-whitelabel { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            opacity: 0.8;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .problem-grid,
+            .roles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .success-criteria {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .role-card.full-width {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .success-criteria,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>📚 School White-Label Management App</h1>
+            <p class="subtitle">Product Requirements Document</p>
+            <span class="version">MVP – Version 1.0</span>
+        </div>
+
+        <!-- Problem Statement -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon problem-icon">🎯</div>
+                <h2 class="section-title">Problem Statement</h2>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-box">
+                    <h4>😫 Current Situation</h4>
+                    <ul>
+                        <li>Schools rely on WhatsApp groups for communication</li>
+                        <li>Manual registers for attendance tracking</li>
+                        <li>Phone calls for parent updates</li>
+                        <li>Paper notices that get lost</li>
+                        <li>No single source of truth</li>
+                        <li>High admin workload daily</li>
+                        <li>Zero digital branding presence</li>
+                    </ul>
+                </div>
+                
+                <div class="problem-box solution">
+                    <h4>✨ What Schools Want</h4>
+                    <ul>
+                        <li>Simple & reliable school-branded app</li>
+                        <li>No ₹20-40 lakhs custom software cost</li>
+                        <li>Zero tech/server management</li>
+                        <li>Professional digital presence</li>
+                        <li>Centralized communication</li>
+                        <li>Easy attendance & homework tracking</li>
+                        <li>Works without training</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Objective -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon objective-icon">🚀</div>
+                <h2 class="section-title">Objective</h2>
+            </div>
+            
+            <div class="objective-main">
+                <p>Enable schools to <strong>digitally manage daily operations</strong> using a <strong>school-branded mobile app</strong>, with <strong>minimum setup</strong> and <strong>zero tech overhead</strong>.</p>
+            </div>
+
+            <h4 style="color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; text-align: center;">MVP Success Criteria</h4>
+            
+            <div class="success-criteria">
+                <div class="criteria-item">
+                    <div class="icon">👨‍💼</div>
+                    <p><strong>Admin</strong> can onboard teachers & students</p>
+                </div>
+                <div class="criteria-item">
+                    <div class="icon">👩‍🏫</div>
+                    <p><strong>Teachers</strong> can mark attendance & assign homework</p>
+                </div>
+                <div class="criteria-item">
+                    <div class="icon">👪</div>
+                    <p><strong>Parents</strong> can view attendance, homework & notices</p>
+                </div>
+                <div class="criteria-item">
+                    <div class="icon">💰</div>
+                    <p><strong>School</strong> willing to pay annual subscription</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roles & Permissions -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon roles-icon">👥</div>
+                <h2 class="section-title">Roles & Permissions</h2>
+            </div>
+            
+            <div class="roles-grid">
+                
+                <!-- Super Admin -->
+                <div class="role-card">
+                    <div class="role-header role-super">
+                        <span class="emoji">🔐</span>
+                        <div>
+                            <h4>Super Admin</h4>
+                            <small>System Owner (Internal)</small>
+                        </div>
+                    </div>
+                    <div class="role-actions">
+                        <h5>Actions</h5>
+                        <span class="action-tag">Create School</span>
+                        <span class="action-tag">Assign School Admin</span>
+                        <span class="action-tag">System Settings</span>
+                        <span class="action-tag">Monitor Usage</span>
+                    </div>
+                </div>
+
+                <!-- School Admin -->
+                <div class="role-card full-width">
+                    <div class="role-header role-admin">
+                        <span class="emoji">👨‍💼</span>
+                        <div>
+                            <h4>School Admin</h4>
+                            <small>Principal / Office Admin</small>
+                        </div>
+                    </div>
+                    <div class="role-actions">
+                        <h5>👥 User Management</h5>
+                        <span class="action-tag">Add/Edit Teachers</span>
+                        <span class="action-tag">Upload Students (CSV)</span>
+                        <span class="action-tag">Add Single Student</span>
+                        <span class="action-tag">Approve Parent Signups</span>
+                        <span class="action-tag">Assign Class Teachers</span>
+                        <span class="action-tag">Deactivate Users</span>
+
+                        <h5 style="margin-top: 15px;">🏫 School Setup</h5>
+                        <span class="action-tag">Create Classes</span>
+                        <span class="action-tag">Create Sections (A/B/C)</span>
+                        <span class="action-tag">Add Subjects</span>
+                        <span class="action-tag">Set Academic Year</span>
+                        <span class="action-tag">Upload Timetable</span>
+                        <span class="action-tag">Set Exam Schedule</span>
+                        <span class="action-tag">Manage Holidays</span>
+
+                        <h5 style="margin-top: 15px;">💰 Fees & Finance</h5>
+                        <span class="action-tag">Set Fee Structure</span>
+                        <span class="action-tag">Set Fine Amounts</span>
+                        <span class="action-tag">View Fee Collection</span>
+                        <span class="action-tag">Pending Fees Report</span>
+                        <span class="action-tag">Generate Fee Receipts</span>
+
+                        <h5 style="margin-top: 15px;">📊 Reports & Analytics</h5>
+                        <span class="action-tag">Class-wise Attendance Report</span>
+                        <span class="action-tag">Teacher Attendance Report</span>
+                        <span class="action-tag">Exam Result Analysis</span>
+                        <span class="action-tag">Fee Collection Report</span>
+                        <span class="action-tag">Student Strength Report</span>
+
+                        <h5 style="margin-top: 15px;">📝 Exams & Results</h5>
+                        <span class="action-tag">Create Exam Types (Unit/Half-Yearly/Annual)</span>
+                        <span class="action-tag">Set Max Marks</span>
+                        <span class="action-tag">Set Passing Marks</span>
+                        <span class="action-tag">Approve Report Cards</span>
+                        <span class="action-tag">Bulk Generate Report Cards</span>
+
+                        <h5 style="margin-top: 15px;">📢 Communication</h5>
+                        <span class="action-tag">Send School-wide Notice</span>
+                        <span class="action-tag">Send Class-wise Notice</span>
+                        <span class="action-tag">Emergency Alerts</span>
+                        <span class="action-tag">Event Announcements</span>
+                    </div>
+                </div>
+
+                <!-- Teacher -->
+                <div class="role-card full-width">
+                    <div class="role-header role-teacher">
+                        <span class="emoji">👩‍🏫</span>
+                        <div>
+                            <h4>Teacher</h4>
+                            <small>Class Teacher / Subject Teacher</small>
+                        </div>
+                    </div>
+                    <div class="role-actions">
+                        <h5>📋 Attendance Management</h5>
+                        <span class="action-tag">Mark Present</span>
+                        <span class="action-tag">Mark Absent</span>
+                        <span class="action-tag">Mark Late</span>
+                        <span class="action-tag">Mark Half-Day</span>
+                        <span class="action-tag">View Attendance Report</span>
+                        <span class="action-tag">Edit Past Attendance</span>
+
+                        <h5 style="margin-top: 15px;">📚 Academic Work</h5>
+                        <span class="action-tag">Upload Assignments</span>
+                        <span class="action-tag">Upload Class Notes (PDF/Images)</span>
+                        <span class="action-tag">Create Homework</span>
+                        <span class="action-tag">Set Due Dates</span>
+                        <span class="action-tag">Upload Study Material</span>
+                        <span class="action-tag">Share YouTube/Video Links</span>
+
+                        <h5 style="margin-top: 15px;">📝 Exams & Results</h5>
+                        <span class="action-tag">Upload Exam Marks</span>
+                        <span class="action-tag">Enter Subject-wise Marks</span>
+                        <span class="action-tag">Add Remarks/Comments</span>
+                        <span class="action-tag">Generate Report Card</span>
+                        <span class="action-tag">View Class Performance</span>
+                        <span class="action-tag">Upload Answer Sheets (Optional)</span>
+
+                        <h5 style="margin-top: 15px;">💰 Fees & Fines</h5>
+                        <span class="action-tag">Apply Late Fine</span>
+                        <span class="action-tag">Apply Discipline Fine</span>
+                        <span class="action-tag">Apply Uniform Fine</span>
+                        <span class="action-tag">Apply Library Fine</span>
+                        <span class="action-tag">View Student Fee Status</span>
+
+                        <h5 style="margin-top: 15px;">📢 Communication</h5>
+                        <span class="action-tag">Send Class Notice</span>
+                        <span class="action-tag">Message Individual Parent</span>
+                        <span class="action-tag">Send Homework Reminder</span>
+                        <span class="action-tag">Send Meeting Request</span>
+                        <span class="action-tag">Share Event Updates</span>
+
+                        <h5 style="margin-top: 15px;">👨‍👩‍👧 Student Management</h5>
+                        <span class="action-tag">View Student Profile</span>
+                        <span class="action-tag">View Parent Contact</span>
+                        <span class="action-tag">Add Student Remarks</span>
+                        <span class="action-tag">Track Student Progress</span>
+                        <span class="action-tag">View Student History</span>
+
+                        <h5 style="margin-top: 15px;">🗓️ Schedule</h5>
+                        <span class="action-tag">View Timetable</span>
+                        <span class="action-tag">View Exam Schedule</span>
+                        <span class="action-tag">Mark Leave Request</span>
+                        <span class="action-tag">View Holidays</span>
+                    </div>
+                </div>
+
+                <!-- Parent -->
+                <div class="role-card full-width">
+                    <div class="role-header role-parent">
+                        <span class="emoji">👪</span>
+                        <div>
+                            <h4>Parent</h4>
+                            <small>Student Guardian</small>
+                        </div>
+                    </div>
+                    <div class="role-actions">
+                        <h5>📋 Attendance</h5>
+                        <span class="action-tag">View Daily Attendance</span>
+                        <span class="action-tag">View Monthly Report</span>
+                        <span class="action-tag">Late/Absent Alerts</span>
+                        <span class="action-tag">Attendance Percentage</span>
+
+                        <h5 style="margin-top: 15px;">📚 Academics</h5>
+                        <span class="action-tag">View Homework</span>
+                        <span class="action-tag">Download Assignments</span>
+                        <span class="action-tag">Download Class Notes</span>
+                        <span class="action-tag">View Study Material</span>
+                        <span class="action-tag">Watch Shared Videos</span>
+
+                        <h5 style="margin-top: 15px;">📝 Results & Report Card</h5>
+                        <span class="action-tag">View Exam Results</span>
+                        <span class="action-tag">Download Report Card (PDF)</span>
+                        <span class="action-tag">View Subject-wise Marks</span>
+                        <span class="action-tag">View Teacher Remarks</span>
+                        <span class="action-tag">View Class Rank</span>
+
+                        <h5 style="margin-top: 15px;">💰 Fees & Fines</h5>
+                        <span class="action-tag">View Fee Status</span>
+                        <span class="action-tag">View Pending Fines</span>
+                        <span class="action-tag">Download Fee Receipt</span>
+                        <span class="action-tag">Payment History</span>
+
+                        <h5 style="margin-top: 15px;">📢 Communication</h5>
+                        <span class="action-tag">Read School Notices</span>
+                        <span class="action-tag">Read Class Notices</span>
+                        <span class="action-tag">Message Teacher</span>
+                        <span class="action-tag">View Event Calendar</span>
+
+                        <h5 style="margin-top: 15px;">🗓️ Schedule</h5>
+                        <span class="action-tag">View Timetable</span>
+                        <span class="action-tag">View Exam Schedule</span>
+                        <span class="action-tag">View Holidays</span>
+                    </div>
+                </div>
+
+                <!-- Student -->
+                <div class="role-card full-width">
+                    <div class="role-header role-student">
+                        <span class="emoji">🎒</span>
+                        <div>
+                            <h4>Student</h4>
+                            <small>Optional in MVP (Read-Only)</small>
+                        </div>
+                    </div>
+                    <div class="role-actions">
+                        <h5>Actions</h5>
+                        <span class="action-tag">View Homework</span>
+                        <span class="action-tag">View Attendance</span>
+                        <span class="action-tag">View Timetable</span>
+                        <span class="action-tag">Read Notices</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon features-icon">⚡</div>
+                <h2 class="section-title">App Features</h2>
+            </div>
+            
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon f-auth">🔑</div>
+                    <h4>Authentication</h4>
+                    <p>Phone + OTP login. Auto role detection. School context per app. Multi-child support for parents.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-admin">🖥️</div>
+                    <h4>Admin Panel (Web)</h4>
+                    <p>Manage teachers & students. CSV bulk upload. Classes, sections, subjects setup. Fee structure configuration.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-attendance">✅</div>
+                    <h4>Attendance System</h4>
+                    <p>Mark Present/Absent/Late/Half-day. Monthly reports. Instant parent alerts. Attendance percentage tracking.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-homework">📚</div>
+                    <h4>Assignments & Notes</h4>
+                    <p>Upload assignments, class notes, study material (PDF/Images). Share video links. Due date reminders.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">📊</div>
+                    <h4>Exam Results</h4>
+                    <p>Subject-wise marks entry. Auto calculate totals & percentage. Class rank. Teacher remarks per student.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #2c3e50, #34495e);">📄</div>
+                    <h4>Report Card Generator</h4>
+                    <p>Auto-generate PDF report cards. School branding. Multiple exam types (Unit/Half-Yearly/Annual). Download & share.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #e67e22, #d35400);">💰</div>
+                    <h4>Fees & Fines</h4>
+                    <p>Fee structure setup. Apply fines (Late/Discipline/Uniform/Library). Payment tracking. Receipt generation.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-notice">📢</div>
+                    <h4>Notices & Alerts</h4>
+                    <p>School-wide & class notices. Push notifications. Emergency alerts. Event announcements. Parent-teacher messaging.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-timetable">🗓️</div>
+                    <h4>Timetable & Schedule</h4>
+                    <p>Class timetable. Exam schedule. Holiday calendar. Teacher's class schedule. Automatic reminders.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">📈</div>
+                    <h4>Reports & Analytics</h4>
+                    <p>Attendance reports. Fee collection status. Exam analysis. Class performance. Exportable to Excel/PDF.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon f-whitelabel">🏫</div>
+                    <h4>White-Label Branding</h4>
+                    <p>School name, logo & colors. Custom app icon. Report card branding. Receipts with school header.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #1abc9c, #16a085);">👨‍👩‍👧</div>
+                    <h4>Student Profile</h4>
+                    <p>Complete student info. Parent contact. Academic history. Attendance record. Fee status. Teacher remarks.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>School White-Label Management App • MVP v1.0 • Product Requirements Document</p>
+        </div>
+
+    </div>
+</body>
+</html>
